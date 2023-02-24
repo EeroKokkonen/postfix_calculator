@@ -39,7 +39,5 @@ private:
 	const char operators[6] = { '+', '-', '*', '/', '%', 'v'};
 
 	const char commands[3] = { 'x', 's', 'a' };
-
-	int answer;
 };
 

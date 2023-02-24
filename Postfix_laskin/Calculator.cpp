@@ -81,10 +81,10 @@ void Calculator::doCalculation(char _operator)
 			calculationStack.push(numb2 / numb1);
 			break;
 		case '^':
-			calculationStack.push(pow(numb2, numb1));
+			calculationStack.push((int)pow(numb2, numb1));
 			break;
 		case '%':
-			calculationStack.push((int)numb2 % (int)numb1);
+			calculationStack.push(numb2 % numb1);
 			break;
 		default:
 			std::cout << "Unknown operator \"" << _operator << "\"!" << std::endl;
@@ -122,7 +122,7 @@ void Calculator::handleCommand(char command)
 	}
 	case 'a': // calculates average of stack numbers, deletes those numbers and add average top of stack
 	{
-		int average = getSum() / calculationStack.size();
+		int average = getSum() / (int)calculationStack.size();
 
 		clearStack();
 
@@ -138,9 +138,9 @@ void Calculator::handleCommand(char command)
 
 void Calculator::clearStack()
 {
-	size_t stackSize = calculationStack.size();
+	int stackSize = (int) calculationStack.size();
 
-	for (size_t i = 0; i < stackSize; i++)
+	for (int i = 0; i < stackSize; i++)
 	{
 		calculationStack.pop();
 	}
@@ -148,13 +148,13 @@ void Calculator::clearStack()
 
 int Calculator::getSum()
 {
-	size_t stackSize = calculationStack.size();
+	int stackSize = (int) calculationStack.size();
 
 	std::stack<int> temoraryStack = calculationStack;
 
 	int sum = 0;
 
-	for (size_t i = 0; i < stackSize; i++)
+	for (int i = 0; i < stackSize; i++)
 	{
 		sum += temoraryStack.top();
 		temoraryStack.pop();
