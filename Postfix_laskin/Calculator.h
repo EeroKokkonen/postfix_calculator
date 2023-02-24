@@ -13,12 +13,12 @@ public:
 	// To get instance of this class
 	static Calculator& Get();
 
-	static float calculate(std::string& calculation);
+	static int calculate(std::string& calculation);
 	
 private:
 	Calculator() {}
 
-	float iCalculate(std::string& calculation);
+	int iCalculate(std::string& calculation);
 
 	void saveCalculationToStack(std::string& calculation);
 
@@ -26,13 +26,15 @@ private:
 
 	void handleCommand(char command);
 
-	float getSum();
+	void clearStack();
+
+	int getSum();
 
 	bool isOperator(char character);
 
 	bool isCommand(char character);
 
-	std::stack<float> calculationStack;
+	std::stack<int> calculationStack;
 
 	const char operators[6] = { '+', '-', '*', '/', '%', 'v'};
 

@@ -11,9 +11,9 @@ namespace utils
 		return userInput;
 	}
 
-	int charToFloat(char character)
+	int charToint(char character)
 	{
-		return float(character) - 48;
+		return int(character) - 48;
 	}
 }
 
@@ -23,12 +23,12 @@ Calculator& Calculator::Get()
 	return instance;
 }
 
-float Calculator::calculate(std::string& calculation)
+int Calculator::calculate(std::string& calculation)
 {
 	return Get().iCalculate(calculation);
 }
 
-float Calculator::iCalculate(std::string& calculation)
+int Calculator::iCalculate(std::string& calculation)
 {
 	for (int i = 0; i < calculation.length(); i++)
 	{
@@ -39,7 +39,7 @@ float Calculator::iCalculate(std::string& calculation)
 
 		if (isdigit(calculation[i]))
 		{
-			calculationStack.push(utils::charToFloat(calculation[i]));
+			calculationStack.push(utils::charToint(calculation[i]));
 			continue;
 		}
 
@@ -61,9 +61,9 @@ void Calculator::saveCalculationToStack(std::string& calculation)
 
 void Calculator::doCalculation(char _operator)
 {
-	float numb1 = calculationStack.top();
+	int numb1 = calculationStack.top();
 	calculationStack.pop();
-	float numb2 = calculationStack.top();
+	int numb2 = calculationStack.top();
 	calculationStack.pop();
 
 	switch (_operator)
@@ -82,12 +82,19 @@ void Calculator::doCalculation(char _operator)
 			break;
 		case '^':
 			calculationStack.push(pow(numb2, numb1));
+			break;
+		case '%':
+			calculationStack.push((int)numb2 % (int)numb1);
+			break;
+		default:
+			std::cout << "Unknown operator \"" << _operator << "\"!" << std::endl;
+			break;
 	}
 }
 
 void Calculator::handleCommand(char command)
 {
-	std::stack<float> temoraryStack;
+	std::stack<int> temoraryStack;
 
 	
 
@@ -105,9 +112,9 @@ void Calculator::handleCommand(char command)
 		break;
 	case 's': // calculates sum of stack numbers, deletes those numbers and add sum top of stack
 	{
-		float sum = getSum();
+		int sum = getSum();
 
-		calculationStack.empty();
+		clearStack();
 
 		calculationStack.push(sum);
 
@@ -115,9 +122,9 @@ void Calculator::handleCommand(char command)
 	}
 	case 'a': // calculates average of stack numbers, deletes those numbers and add average top of stack
 	{
-		float average = getSum() / calculationStack.size();
+		int average = getSum() / calculationStack.size();
 
-		calculationStack.empty();
+		clearStack();
 
 		calculationStack.push(average);
 
@@ -129,15 +136,25 @@ void Calculator::handleCommand(char command)
 	}
 }
 
-float Calculator::getSum()
+void Calculator::clearStack()
 {
-	int stackSize = calculationStack.size();
+	size_t stackSize = calculationStack.size();
 
-	std::stack<float> temoraryStack = calculationStack;
+	for (size_t i = 0; i < stackSize; i++)
+	{
+		calculationStack.pop();
+	}
+}
 
-	float sum = 0;
+int Calculator::getSum()
+{
+	size_t stackSize = calculationStack.size();
 
-	for (int i = 0; i < stackSize; i++)
+	std::stack<int> temoraryStack = calculationStack;
+
+	int sum = 0;
+
+	for (size_t i = 0; i < stackSize; i++)
 	{
 		sum += temoraryStack.top();
 		temoraryStack.pop();
