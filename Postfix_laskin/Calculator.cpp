@@ -89,32 +89,60 @@ void Calculator::handleCommand(char command)
 {
 	std::stack<float> temoraryStack;
 
+	
+
 	switch (command)
 	{
 	case 'x':	// change positions of two numbers in stack
 		temoraryStack.push(calculationStack.top());
-		calculationStack.pop();
-		temoraryStack.push(calculationStack.top());
-		calculationStack.swap(temoraryStack);
-		break;
-	case 's':
-	{
-		float sum = 0;
-		int stackSize = calculationStack.size();
 
-		for (int i = 0; i < stackSize; i++)
-		{
-			sum += calculationStack.top();
-			calculationStack.pop();
-		}
+		calculationStack.pop();
+
+		temoraryStack.push(calculationStack.top());
+
+		calculationStack.swap(temoraryStack);
+
+		break;
+	case 's': // calculates sum of stack numbers, deletes those numbers and add sum top of stack
+	{
+		float sum = getSum();
+
+		calculationStack.empty();
 
 		calculationStack.push(sum);
+
+		break;
+	}
+	case 'a': // calculates average of stack numbers, deletes those numbers and add average top of stack
+	{
+		float average = getSum() / calculationStack.size();
+
+		calculationStack.empty();
+
+		calculationStack.push(average);
+
 		break;
 	}
 	default:
 		std::cout << "Unknown command \"" << command << "\"!" << std::endl;
 		break;
 	}
+}
+
+float Calculator::getSum()
+{
+	int stackSize = calculationStack.size();
+
+	std::stack<float> temoraryStack = calculationStack;
+
+	float sum = 0;
+
+	for (int i = 0; i < stackSize; i++)
+	{
+		sum += temoraryStack.top();
+		temoraryStack.pop();
+	}
+	return sum;
 }
 
 bool Calculator::isOperator(char character)

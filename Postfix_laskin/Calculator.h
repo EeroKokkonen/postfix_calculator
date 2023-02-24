@@ -26,15 +26,17 @@ private:
 
 	void handleCommand(char command);
 
+	float getSum();
+
 	bool isOperator(char character);
 
 	bool isCommand(char character);
 
 	std::stack<float> calculationStack;
 
-	const char operators[4] = { '+', '-', '*', '/' };
+	const char operators[6] = { '+', '-', '*', '/', '%', 'v'};
 
-	const char commands[2] = { 'x', 's'};
+	const char commands[3] = { 'x', 's', 'a' };
 
 	int answer;
 };
