@@ -51,14 +51,6 @@ int Calculator::iCalculate(std::string& calculation)
 	return calculationStack.top();
 }
 
-void Calculator::saveCalculationToStack(std::string& calculation)
-{
-	for (int i = 0; i < calculation.length(); i++)
-	{
-		calculationStack.push(calculation[i]);
-	}
-}
-
 void Calculator::doCalculation(char _operator)
 {
 	int numb1 = calculationStack.top();
@@ -94,13 +86,12 @@ void Calculator::doCalculation(char _operator)
 
 void Calculator::handleCommand(char command)
 {
-	std::stack<int> temoraryStack;
-
-	
-
 	switch (command)
 	{
 	case 'x':	// change positions of two numbers in stack
+	{
+		std::stack<int> temoraryStack;
+
 		temoraryStack.push(calculationStack.top());
 
 		calculationStack.pop();
@@ -110,6 +101,7 @@ void Calculator::handleCommand(char command)
 		calculationStack.swap(temoraryStack);
 
 		break;
+	}
 	case 's': // calculates sum of stack numbers, deletes those numbers and add sum top of stack
 	{
 		int sum = getSum();
@@ -129,6 +121,12 @@ void Calculator::handleCommand(char command)
 		calculationStack.push(average);
 
 		break;
+	}
+	case 'v':
+	{
+		int squareRoot = (int) sqrt(calculationStack.top());
+		clearStack();
+		calculationStack.push(squareRoot);
 	}
 	default:
 		std::cout << "Unknown command \"" << command << "\"!" << std::endl;
@@ -181,6 +179,3 @@ bool Calculator::isCommand(char character)
 	}
 	return false;
 }
-
-
-
