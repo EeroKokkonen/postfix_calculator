@@ -1,8 +1,7 @@
-#pragma once
 #include <iostream>
 #include <stack>
 #include <ctype.h>
-
+#include <cmath>
 
 // Singleton
 class Calculator
@@ -46,12 +45,11 @@ private:
 	std::stack<int> calculationStack;
 
 	// Implemented operators for this calculator
-	const char operators[6] = { '+', '-', '*', '/', '%', 'v'};
+	const char operators[6] = { '+', '-', '*', '/', '%', '^'};
 
 	/*
 		Implemented commands for this calculator
 	    x = swap, s = sum, a = average
 	*/
-	const char commands[3] = { 'x', 's', 'a' };
+	const char commands[4] = { 'x', 's', 'a', 'v'};
 };
-

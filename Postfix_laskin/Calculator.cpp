@@ -1,16 +1,6 @@
 #include "Calculator.h"
 namespace utils
 {
-	std::string getString(int argc, char** argv)
-	{
-		std::string userInput = "";
-		for (int i = 1; i < argc; i++)
-		{
-			userInput += argv[i];
-		}
-		return userInput;
-	}
-
 	int charToint(char character)
 	{
 		return int(character) - 48;
@@ -35,6 +25,7 @@ int Calculator::iCalculate(std::string& calculation)
 		if (isCommand(calculation[i]))
 		{
 			handleCommand(calculation[i]);
+			continue;
 		}
 
 		if (isdigit(calculation[i]))
@@ -46,6 +37,7 @@ int Calculator::iCalculate(std::string& calculation)
 		if (isOperator(calculation[i]))
 		{
 			doCalculation(calculation[i]);
+			continue;
 		}
 	}
 	return calculationStack.top();
@@ -86,6 +78,12 @@ void Calculator::doCalculation(char _operator)
 
 void Calculator::handleCommand(char command)
 {
+	if (calculationStack.empty())
+	{
+		std::cout << "No numbers found!" << std::endl;
+		return;
+	}
+
 	switch (command)
 	{
 	case 'x':	// change positions of two numbers in stack
@@ -126,7 +124,10 @@ void Calculator::handleCommand(char command)
 	{
 		int squareRoot = (int) sqrt(calculationStack.top());
 		clearStack();
+
 		calculationStack.push(squareRoot);
+
+		break;
 	}
 	default:
 		std::cout << "Unknown command \"" << command << "\"!" << std::endl;
