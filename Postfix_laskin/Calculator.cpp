@@ -32,6 +32,11 @@ float Calculator::iCalculate(std::string& calculation)
 {
 	for (int i = 0; i < calculation.length(); i++)
 	{
+		if (isCommand(calculation[i]))
+		{
+			handleCommand(calculation[i]);
+		}
+
 		if (isdigit(calculation[i]))
 		{
 			calculationStack.push(utils::charToFloat(calculation[i]));
@@ -75,6 +80,40 @@ void Calculator::doCalculation(char _operator)
 		case '/':
 			calculationStack.push(numb2 / numb1);
 			break;
+		case '^':
+			calculationStack.push(pow(numb2, numb1));
+	}
+}
+
+void Calculator::handleCommand(char command)
+{
+	std::stack<float> temoraryStack;
+
+	switch (command)
+	{
+	case 'x':	// change positions of two numbers in stack
+		temoraryStack.push(calculationStack.top());
+		calculationStack.pop();
+		temoraryStack.push(calculationStack.top());
+		calculationStack.swap(temoraryStack);
+		break;
+	case 's':
+	{
+		float sum = 0;
+		int stackSize = calculationStack.size();
+
+		for (int i = 0; i < stackSize; i++)
+		{
+			sum += calculationStack.top();
+			calculationStack.pop();
+		}
+
+		calculationStack.push(sum);
+		break;
+	}
+	default:
+		std::cout << "Unknown command \"" << command << "\"!" << std::endl;
+		break;
 	}
 }
 
@@ -87,4 +126,16 @@ bool Calculator::isOperator(char character)
 	}
 	return false;
 }
+
+bool Calculator::isCommand(char character)
+{
+	for (int i = 0; i < sizeof(commands) / sizeof(commands[0]); i++)
+	{
+		if (character == commands[i])
+			return true;
+	}
+	return false;
+}
+
+
 

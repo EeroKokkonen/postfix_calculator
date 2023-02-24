@@ -24,11 +24,17 @@ private:
 
 	void doCalculation(char _operator);
 
+	void handleCommand(char command);
+
 	bool isOperator(char character);
+
+	bool isCommand(char character);
 
 	std::stack<float> calculationStack;
 
-	const char operators[4] = { '+', '-', '*', '/'};
+	const char operators[4] = { '+', '-', '*', '/' };
+
+	const char commands[2] = { 'x', 's'};
 
 	int answer;
 };
